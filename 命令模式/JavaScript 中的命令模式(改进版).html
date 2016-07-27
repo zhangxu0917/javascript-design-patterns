@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    <button id="button1">点击按钮 1</button>
+    <button id="button2">点击按钮 2</button>
+    <button id="button3">点击按钮 3</button>
+</body>
+<script type="text/javascript">
+    var button1 = document.getElementById("button1");
+    var button2 = document.getElementById("button2");
+    var button3 = document.getElementById("button3");
+
+    var MenuBar = {
+        refresh: function() {
+            console.log("刷新菜单界面");
+        }
+    };
+    //如果想更明确的表达当前正在使用命令模式或者出了执行命令之外，将来有可能还要提供撤销命令等操作。那我们最好还是把执行函数改为execute方法
+    var RefreshMenuBarCommand = function(receiver) {
+        return {
+            execute: function() {
+                receiver.refresh();
+            }
+        }
+    };
+
+    var setCommand = function(button, command) {
+        button.onclick = function() {
+            command.execute();
+        }
+    }
+    
+    var refreshMenuBarCommand = RefreshMenuBarCommand(MenuBar);
+    setCommand(button1, refreshMenuBarCommand);
+</script>
+
+</html>

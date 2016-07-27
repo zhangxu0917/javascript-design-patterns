@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title></title>
+</head>
+
+<body>
+<div id="ball" style="position:absolute;background:#000;width:50px;height:50px"></div>
+输入小球移动后的位置：
+<input id="pos"/>
+<button id="moveBtn">开始移动</button>
+<button id="cancelBtn">cancel</button> <!--增加取消按钮-->
+</body>
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js" charset="utf-8"></script>
+<script>
+    var ball = document.getElementById('ball');
+    var pos = document.getElementById('pos');
+    var moveBtn = document.getElementById('moveBtn');
+    var cancelBtn = document.getElementById('cancelBtn');
+
+    var MoveCommand = function (receiver, style) {
+        this.receiver = receiver;
+        this.style = style;
+        this.oldPos = null;
+    };
+    MoveCommand.prototype.execute = function () {
+        this.oldStyle = {left: $(this.receiver.el).css("left")};
+        this.receiver.start(this.style, 2000);
+    };
+
+    MoveCommand.prototype.undo = function () {
+        this.receiver.start(this.oldStyle, 2000);
+        // 回到小球移动前记录的位置
+    };
+    var moveCommand;
+
+    var Animate = function (elem) {
+        this.el = elem;
+    };
+    Animate.prototype.start = function (style, dur) {
+        $(this.el).animate(style, dur);
+    };
+
+
+    moveBtn.onclick = function () {
+        var animate = new Animate(ball);
+        moveCommand = new MoveCommand(animate, {left: pos.value});
+        moveCommand.execute();
+    };
+
+    cancelBtn.onclick = function () {
+        moveCommand.undo();
+    };
+</script>
+
+</html>
