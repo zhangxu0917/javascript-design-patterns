@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Page Title</title>
+</head>
+
+<body>
+    用户名：
+    <input id="username" type="text" /> 密码：
+    <input id="password" type="password" />
+    <input id="submitBtn" type="button" value="提交">
+</body>
+
+<script>
+    var username = document.getElementById('username'),
+        password = document.getElementById('password'),
+        submitBtn = document.getElementById('submitBtn');
+
+    var validata = function() {
+        if (username.value === "") {
+            alert("用户名不能为空");
+            return false;
+        };
+        if (password.value === "") {
+            alert("密码不能为空");
+            return false;
+        };
+    }
+    var formSubmit = function() {
+        if (validata() === false) {
+            //校验未通过
+            return;
+        }
+        var param = {
+            username: username.value,
+            password: password.value
+        };
+        ajax("http://xxx.com/login", param);
+    };
+    submitBtn.onclick = function() {
+        formSubmit();
+    };
+</script>
+
+</html>

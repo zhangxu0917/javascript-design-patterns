@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <button id="button">button</button>
+  </body>
+  <script type="text/javascript">
+    Function.prototype.before = function(beforefn){
+      var __self = this;
+      return function(){
+        beforefn.apply(this,arguments);
+        return __self.apply(this,arguments);
+      }
+    }
+    document.getElementById = document.getElementById.before(function(){
+      alert(1);
+    })
+    var button = document.getElementById("button");
+    console.log(button);
+  </script>
+</html>
