@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    选择颜色:
+    <select id="colorSelect">
+        <option value="">请选择</option>
+        <option value="red">红色</option>
+        <option value="blue">蓝色</option>
+    </select>
+    输入购买数量:
+    <input type="text" id="numberInput" /> 您选择了颜色:
+    <div id="colorInfo"></div>
+    <br/> 您输入了数量:
+    <div id="numberInfo"></div>
+    <br/>
+    <button id="nextBtn" disabled="true">请选择手机颜色和购买数量</button>
+</body>
+<script>
+    var colorSelect = document.getElementById('colorSelect'),
+        numberInput = document.getElementById('numberInput'),
+        colorInfo = document.getElementById('colorInfo'),
+        numberInfo = document.getElementById('numberInfo'),
+        nextBtn = document.getElementById('nextBtn');
+    var goods = { // 手机库存
+        "red": 3,
+        "blue": 6
+    };
+    colorSelect.onchange = function() {
+        var color = this.value, // 颜色
+            number = numberInput.value, // 数量
+            stock = goods[color]; // 该颜色手机对应的当前库存
+        colorInfo.innerHTML = color;
+        if (!color) {
+            nextBtn.disabled = true;
+            nextBtn.innerHTML = '请选择手机颜色';
+            return;
+        }
+        if (((number - 0) | 0) !== number - 0) { // 用户输入的购买数量是否为正整数
+            nextBtn.disabled = true;
+            nextBtn.innerHTML = '请输入正确的购买数量';
+            return;
+        }
+        if (number > stock) { // 当前选择数量没有超过库存量
+            nextBtn.disabled = true;
+            nextBtn.innerHTML = '库存不足';
+            return;
+        }
+        nextBtn.disabled = false;
+        nextBtn.innerHTML = '放入购物车';
+    };
+
+    numberInput.oninput = function() {
+        var color = colorSelect.value, // 颜色
+            number = this.value, // 数量
+            stock = goods[color]; // 该颜色手机对应的当前库存
+        numberInfo.innerHTML = number;
+        if (!color) {
+            nextBtn.disabled = true;
+            nextBtn.innerHTML = '请选择手机颜色';
+            return;
+        }
+        if (((number - 0) | 0) !== number - 0) { // 输入购买数量是否为正整数
+            nextBtn.disabled = true;
+            nextBtn.innerHTML = '请输入正确的购买数量';
+            return;
+        }
+        if (number > stock) { // 当前选择数量没有超过库存量
+            nextBtn.disabled = true;
+            nextBtn.innerHTML = '库存不足';
+            return;
+        }
+        nextBtn.disabled = false;
+        nextBtn.innerHTML = '放入购物车';
+    };
+</script>
+
+</html>
